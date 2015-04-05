@@ -29,7 +29,7 @@ class pulsedemod(gr.sync_block):
     def __init__(self):
         gr.sync_block.__init__(self,
             name="pulsedemod",
-            in_sig=[<+numpy.float+>],
+            in_sig=[numpy.float32],
             out_sig=None)
 
 
