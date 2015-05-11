@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # 
-# Copyright 2015 <+YOU OR YOUR COMPANY+>.
+# Copyright 2015 kees Jongenburger
 # 
 # This is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,14 +27,41 @@ class pulsedemod(gr.sync_block):
     docstring for block pulsedemod
     """
     def __init__(self):
-        gr.sync_block.__init__(self,
-            name="pulsedemod",
-            in_sig=[numpy.float32],
-            out_sig=None)
+		gr.sync_block.__init__(self, name="pulsedemod", in_sig=[numpy.float32], out_sig=None)
+		self.upcount=0
+		self.downcount=0
+		self.bits = ""
 
+    def end_sample(self,value,count):
+		if value == 1:
+			if (count < 50):
+				print "SKIP"
+				return
+			if (count < 200):
+				self.bits  += "0"
+			if (count > 210):
+				self.bits += "1"
+		if value == 0:
+			if count > 600:
+				print("BITS %s" % self.bits)
+				self.bits = ""
 
     def work(self, input_items, output_items):
-        in0 = input_items[0]
-        # <+signal processing here+>
-        return len(input_items[0])
+		in0 = input_items[0]
+		for i in range(0, len(in0)):
+			sample = in0[i]
 
+			# do upcount
+			if sample < 0.5 and self.upcount > 0:
+				self.end_sample(1,self.upcount)
+				self.upcount = 0
+			if sample > 0.5:
+				self.upcount += 1
+
+			# do downcount
+			if sample > 0.5 and self.downcount > 0:
+				self.end_sample(0,self.downcount)
+				self.downcount = 0
+			if sample < 0.5:
+				self.downcount += 1
+		return len(input_items[0])

@@ -33,9 +33,25 @@ class qa_pulsedemod (gr_unittest.TestCase):
 
     def test_001_t (self):
         # set up fg
+        bit_timeout = (0,) * 2000
+        bit_pause = (0.,) * 30
+        zero_bit = bit_pause  + (1.,) * 500
+        one_bit = bit_pause  + (1.,) * 220
+        in_bits = bit_timeout  + zero_bit + one_bit + one_bit  + one_bit + bit_timeout
+        #print (in_bits)
+        source = blocks.vector_source_f(in_bits)
+        sink = pulsedemod();
+        self.tb.connect(source,sink)
         self.tb.run ()
         # check data
 
+    def test_002_t (self):
+		#test the end_sample methods
+		stream =  pulsedemod()
+		stream.end_sample(0,1000)
+		stream.end_sample(1,150)
+		stream.end_sample(1,300)
+		stream.end_sample(0,1000)
 
 if __name__ == '__main__':
     gr_unittest.run(qa_pulsedemod, "qa_pulsedemod.xml")
