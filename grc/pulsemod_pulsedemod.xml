@@ -4,7 +4,15 @@
   <key>pulsemod_pulsedemod</key>
   <category>pulsemod</category>
   <import>import pulsemod</import>
-  <make>pulsemod.pulsedemod()</make>
+  <make>pulsemod.pulsedemod()
+self.$(id).set_sample_rate($sample_rate)
+  </make>
+  <param>
+	  <name>Sample rate</name>
+	  <key>sample_rate</key>
+	  <value>samp_rate</value>
+	  <type>real</type>
+  </param>
   <sink>
     <name>in</name>
     <type>float</type>

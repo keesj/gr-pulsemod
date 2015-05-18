@@ -32,6 +32,9 @@ class pulsedemod(gr.sync_block):
 		self.downcount=0
 		self.bits = ""
 
+    def set_sample_rate(self,samp_rate):
+        print "Setting sample rate to %i" % samp_rate
+
     def end_sample(self,value,count):
 		if value == 1:
 			if (count < 50):
