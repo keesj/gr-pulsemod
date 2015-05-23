@@ -27,44 +27,47 @@ class pulsedemod(gr.sync_block):
     docstring for block pulsedemod
     """
     def __init__(self):
-		gr.sync_block.__init__(self, name="pulsedemod", in_sig=[numpy.float32], out_sig=None)
-		self.upcount=0
-		self.downcount=0
-		self.bits = ""
+        gr.sync_block.__init__(self, name="pulsedemod", in_sig=[numpy.float32], out_sig=None)
+        self.upcount=0
+        self.downcount=0
+        self.bits = ""
+        self.noise_threshold=50 # bellow this we consider this a fluke
+        self.low_threshold=200  # above noise and bellow this bits are short
+        self.silence_threshold=600 # above this we have detected end of transmission
 
     def set_sample_rate(self,samp_rate):
         print "Setting sample rate to %i" % samp_rate
 
     def end_sample(self,value,count):
-		if value == 1:
-			if (count < 50):
-				print "SKIP"
-				return
-			if (count < 200):
-				self.bits  += "0"
-			if (count > 210):
-				self.bits += "1"
-		if value == 0:
-			if count > 600:
-				print("BITS %s" % self.bits)
-				self.bits = ""
+        if value == 1:
+            if (count < self.noise_threshold):
+                print "SKIP %i" % count
+                return
+            if (count < self.low_threshold):
+                self.bits  += "0"
+            if (count >= self.low_threshold):
+                self.bits += "1"
+        if value == 0:
+            if count > self.silence_threshold:
+                print("BITS %s" % self.bits)
+                self.bits = ""
 
     def work(self, input_items, output_items):
-		in0 = input_items[0]
-		for i in range(0, len(in0)):
-			sample = in0[i]
+        in0 = input_items[0]
+        for i in range(0, len(in0)):
+            sample = in0[i]
 
-			# do upcount
-			if sample < 0.5 and self.upcount > 0:
-				self.end_sample(1,self.upcount)
-				self.upcount = 0
-			if sample > 0.5:
-				self.upcount += 1
+            # do upcount
+            if sample < 0.5 and self.upcount > 0:
+                self.end_sample(1,self.upcount)
+                self.upcount = 0
+            if sample > 0.5:
+                self.upcount += 1
 
-			# do downcount
-			if sample > 0.5 and self.downcount > 0:
-				self.end_sample(0,self.downcount)
-				self.downcount = 0
-			if sample < 0.5:
-				self.downcount += 1
-		return len(input_items[0])
+            # do downcount
+            if sample > 0.5 and self.downcount > 0:
+                self.end_sample(0,self.downcount)
+                self.downcount = 0
+            if sample < 0.5:
+                self.downcount += 1
+        return len(input_items[0])
