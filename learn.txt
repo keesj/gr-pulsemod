@@ -1,0 +1,201 @@
+DIY gnuradio processing. just look at the test cases
+
+
+Step 1 create a new module
+
+
+
+1)
+keesj@yoga:~/projects/sdr/learn/mymod$ gr_modtool newmod
+Name of the new module: pulsemod
+Creating out-of-tree module in ./gr-pulsemod... Done.
+Use 'gr_modtool add' to add a new block to this currently empty module.
+
+2) init a git reposutory for you changes
+git init 
+git add .
+
+The tree now looks like this
+
+.
+|-- apps
+|   `-- CMakeLists.txt
+|-- cmake
+|   |-- cmake_uninstall.cmake.in
+|   `-- Modules
+|       |-- CMakeParseArgumentsCopy.cmake
+|       |-- FindCppUnit.cmake
+|       |-- FindGnuradioRuntime.cmake
+|       |-- GrMiscUtils.cmake
+|       |-- GrPlatform.cmake
+|       |-- GrPython.cmake
+|       |-- GrSwig.cmake
+|       |-- GrTest.cmake
+|       |-- pulsemodConfig.cmake
+|       `-- UseSWIG.cmake
+|-- CMakeLists.txt
+|-- docs
+|   |-- CMakeLists.txt
+|   |-- doxygen
+|   |   |-- CMakeLists.txt
+|   |   |-- Doxyfile.in
+|   |   |-- Doxyfile.swig_doc.in
+|   |   |-- doxyxml
+|   |   |   |-- base.py
+|   |   |   |-- doxyindex.py
+|   |   |   |-- generated
+|   |   |   |   |-- compound.py
+|   |   |   |   |-- compoundsuper.py
+|   |   |   |   |-- index.py
+|   |   |   |   |-- indexsuper.py
+|   |   |   |   `-- __init__.py
+|   |   |   |-- __init__.py
+|   |   |   `-- text.py
+|   |   |-- other
+|   |   |   |-- group_defs.dox
+|   |   |   `-- main_page.dox
+|   |   `-- swig_doc.py
+|   `-- README.pulsemod
+|-- examples
+|   `-- README
+|-- grc
+|   `-- CMakeLists.txt
+|-- include
+|   `-- pulsemod
+|       |-- api.h
+|       `-- CMakeLists.txt
+|-- l
+|-- lib
+|   |-- CMakeLists.txt
+|   |-- qa_pulsemod.cc
+|   |-- qa_pulsemod.h
+|   `-- test_pulsemod.cc
+|-- python
+|   |-- build_utils_codes.py
+|   |-- build_utils.py
+|   |-- CMakeLists.txt
+|   `-- __init__.py
+`-- swig
+    |-- CMakeLists.txt
+    `-- pulsemod_swig.i
+
+15 directories, 45 files
+
+3) Configure the module to point to the gnuradio install directory
+
+mkdir build
+cd build
+cmake -D  CMAKE_INSTALL_PREFIX:PATH=${HOME}/projects/sdr/target ..
+
+
+4) run make test and make install
+
+keesj@yoga:~/projects/sdr/learn/mymod/gr-pulsemod/build$ make install
+[ 50%] Generating __init__.pyc
+[100%] Generating __init__.pyo
+[100%] Built target pygen_python_546ff
+[100%] Built target pygen_apps_9a6dd
+Install the project...
+-- Install configuration: "Release"
+-- Installing: /home/keesj/projects/sdr/target/lib/cmake/pulsemod/pulsemodConfig.cmake
+-- Installing: /home/keesj/projects/sdr/target/include/pulsemod/api.h
+-- Installing: /home/keesj/projects/sdr/target/lib/python2.7/dist-packages/pulsemod/__init__.py
+-- Installing: /home/keesj/projects/sdr/target/lib/python2.7/dist-packages/pulsemod/__init__.pyc
+-- Installing: /home/keesj/projects/sdr/target/lib/python2.7/dist-packages/pulsemod/__init__.pyo
+
+5) Creatj@yoga:~/projects/sdr/learn/mymod/gr-pulsemod$ gr_modtool add
+GNU Radio module name identified: pulsemod
+('sink', 'source', 'sync', 'decimator', 'interpolator', 'general', 'tagged_stream', 'hier', 'noblock')
+Enter block type: sink
+Language (python/cpp): python
+Language: Python
+Enter name of block/code (without module name prefix): pulsedemod
+Block/code identifier: pulsedemod
+Enter valid argument list, including default arguments:
+Add Python QA code? [Y/n] y
+Adding file 'python/pulsedemod.py'...
+Adding file 'python/qa_pulsedemod.py'...
+Editing python/CMakeLists.txt...
+Adding file 'grc/pulsemod_pulsedemod.xml'...
+Editing grc/CMakeLists.txt...
+a new module
+
+
+run Make test and run make
+
+
+
+keesj@yoga:~/projects/sdr/learn/mymod/gr-pulsemod/build$ make
+-- Build type not specified: defaulting to release.
+-- Boost version: 1.55.0
+-- Found the following Boost libraries:
+--   filesystem
+--   system
+-- Could NOT find Doxygen (missing:  DOXYGEN_EXECUTABLE)
+Checking for GNU Radio Module: RUNTIME
+ * INCLUDES=/home/keesj/projects/sdr/target/include
+ * LIBS=/home/keesj/projects/sdr/target/lib/libgnuradio-runtime.so;/home/keesj/projects/sdr/target/lib/libgnuradio-pmt.so
+GNURADIO_RUNTIME_FOUND = TRUE
+-- No C++ sources... skipping lib/
+-- No C++ sources... skipping swig/
+-- Could NOT find Doxygen (missing:  DOXYGEN_EXECUTABLE)
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/keesj/projects/sdr/learn/mymod/gr-pulsemod/build
+Scanning dependencies of target pygen_python_95198
+[ 50%] Generating __init__.pyc, pulsedemod.pyc
+Traceback (most recent call last):
+  File "/home/keesj/projects/sdr/learn/mymod/gr-pulsemod/build/python_compile_helper.py", line 6, in <module>
+    py_compile.compile(file=src, cfile=gen, doraise=True)
+  File "/usr/lib/python2.7/py_compile.py", line 117, in compile
+    raise py_exc
+py_compile.PyCompileError:   File "/home/keesj/projects/sdr/learn/mymod/gr-pulsemod/python/pulsedemod.py", line 32
+    in_sig=[<+numpy.float+>],
+            ^
+SyntaxError: invalid syntax
+
+python/CMakeFiles/pygen_python_95198.dir/build.make:55: recipe for target 'python/__init__.pyc' failed
+make[2]: *** [python/__init__.pyc] Error 1
+CMakeFiles/Makefile2:151: recipe for target 'python/CMakeFiles/pygen_python_95198.dir/all' failed
+make[1]: *** [python/CMakeFiles/pygen_python_95198.dir/all] Error 2
+Makefile:123: recipe for target 'all' failed
+make: *** [all] Error 2
+
+
+6) add / update git
+git add .
+
+7)
+The error above is because the code generator does not handle generating input types.
+we are going to modify the python code to "compile" by doing the proper replacement.
+
+8) After a make install you can now see you own module if you run gnuradio-companion
+
+However because we did not properly configure the meta-data of the object there is also a mismatch there
+
+
+Traceback (most recent call last):
+  File "/home/keesj/projects/sdr/target/lib/python2.7/dist-packages/gnuradio/grc/gui/ActionHandler.py", line 337, in _handle_action
+    self.get_flow_graph().update()
+  File "/home/keesj/projects/sdr/target/lib/python2.7/dist-packages/gnuradio/grc/gui/FlowGraph.py", line 348, in update
+    self.create_labels()
+  File "/home/keesj/projects/sdr/target/lib/python2.7/dist-packages/gnuradio/grc/gui/Element.py", line 78, in create_labels
+    for child in self.get_children():child.create_labels()
+  File "/home/keesj/projects/sdr/target/lib/python2.7/dist-packages/gnuradio/grc/gui/Block.py", line 157, in create_labels
+    markups = [param.get_markup() for param in self.get_params() if param.get_hide() not in ('all', 'part')]
+  File "/home/keesj/projects/sdr/target/lib/python2.7/dist-packages/gnuradio/grc/python/Param.py", line 173, in get_hide
+    lambda p: ' '.join([p._type, p._nports]), self.get_parent().get_ports())
+  File "/home/keesj/projects/sdr/target/lib/python2.7/dist-packages/gnuradio/grc/python/Param.py", line 173, in <lambda>
+    lambda p: ' '.join([p._type, p._nports]), self.get_parent().get_ports())
+TypeError: sequence item 0: expected string, instance found
+^CTraceback (most recent call last):
+  File "/home/keesj/projects/sdr/target/bin/gnuradio-companion", line 72, in <module>
+    ActionHandler(args, Platform())
+  File "/home/keesj/projects/sdr/target/lib/python2.7/dist-packages/gnuradio/grc/gui/ActionHandler.py", line 74, in __init__
+    gtk.main()
+
+
+9) We modify grc/pulsemode_pulsedemo.xml
+to have a single sink accepting floats
+
+we can not start and our new components in gnuradio-companion.
