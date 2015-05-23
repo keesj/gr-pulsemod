@@ -31,9 +31,9 @@ class pulsedemod(gr.sync_block):
         self.upcount=0
         self.downcount=0
         self.bits = ""
-        self.noise_threshold=50 # bellow this we consider this a fluke
-        self.low_threshold=200  # above noise and bellow this bits are short
-        self.silence_threshold=600 # above this we have detected end of transmission
+        self.noise_threshold=5 # bellow this we consider this a fluke
+        self.low_threshold=25  # above noise and bellow this bits are short
+        self.silence_threshold=60 # above this we have detected end of transmission
 
     def set_sample_rate(self,samp_rate):
         print "Setting sample rate to %i" % samp_rate
@@ -50,6 +50,10 @@ class pulsedemod(gr.sync_block):
         if value == 0:
             if count > self.silence_threshold:
                 print("BITS %s" % self.bits)
+                if self.bits == "001010100011111111":
+                    print "Controller 1"
+                if self.bits == "100010111110001111":
+                    print "Controller 2"
                 self.bits = ""
 
     def work(self, input_items, output_items):
