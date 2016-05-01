@@ -11,9 +11,11 @@ Name of the new module: pulsemod
 Creating out-of-tree module in ./gr-pulsemod... Done.
 Use 'gr_modtool add' to add a new block to this currently empty module.
 
-2) init a git reposutory for you changes
-git init 
+2) init a git repository for your changes
+git init
 git add .
+git commit -m initial
+
 
 The tree now looks like this
 
@@ -64,7 +66,6 @@ The tree now looks like this
 |   `-- pulsemod
 |       |-- api.h
 |       `-- CMakeLists.txt
-|-- l
 |-- lib
 |   |-- CMakeLists.txt
 |   |-- qa_pulsemod.cc
@@ -103,7 +104,9 @@ Install the project...
 -- Installing: /home/keesj/projects/sdr/target/lib/python2.7/dist-packages/pulsemod/__init__.pyc
 -- Installing: /home/keesj/projects/sdr/target/lib/python2.7/dist-packages/pulsemod/__init__.pyo
 
-5) Creatj@yoga:~/projects/sdr/learn/mymod/gr-pulsemod$ gr_modtool add
+5) Creat you first module
+
+@yoga:~/projects/sdr/learn/mymod/gr-pulsemod$ gr_modtool add
 GNU Radio module name identified: pulsemod
 ('sink', 'source', 'sync', 'decimator', 'interpolator', 'general', 'tagged_stream', 'hier', 'noblock')
 Enter block type: sink
@@ -198,4 +201,4 @@ TypeError: sequence item 0: expected string, instance found
 9) We modify grc/pulsemode_pulsedemo.xml
 to have a single sink accepting floats
 
-we can not start and our new components in gnuradio-companion.
+we can now start and our new components in gnuradio-companion.
