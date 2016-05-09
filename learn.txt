@@ -86,7 +86,7 @@ The tree now looks like this
 
 mkdir build
 cd build
-cmake -D  CMAKE_INSTALL_PREFIX:PATH=${HOME}/projects/sdr/target ..
+cmake -D  CMAKE_INSTALL_PREFIX:PATH=${PYBOMBS_PREFIX} ..
 
 
 4) run make test and make install
