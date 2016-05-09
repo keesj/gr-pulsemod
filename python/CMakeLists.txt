@@ -31,7 +31,8 @@ endif()
 GR_PYTHON_INSTALL(
     FILES
     __init__.py
-    pulsedemod.py DESTINATION ${GR_PYTHON_DIR}/pulsemod
+    pulsedemod.py
+    pulsemod.py DESTINATION ${GR_PYTHON_DIR}/pulsemod
 )
 
 ########################################################################
@@ -42,3 +43,4 @@ include(GrTest)
 set(GR_TEST_TARGET_DEPS gnuradio-pulsemod)
 set(GR_TEST_PYTHON_DIRS ${CMAKE_BINARY_DIR}/swig)
 GR_ADD_TEST(qa_pulsedemod ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_pulsedemod.py)
+GR_ADD_TEST(qa_pulsemod ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_pulsemod.py)

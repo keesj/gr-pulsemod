@@ -18,5 +18,6 @@
 # Boston, MA 02110-1301, USA.
 
 install(FILES
-    pulsemod_pulsedemod.xml DESTINATION share/gnuradio/grc/blocks
+    pulsemod_pulsedemod.xml
+    pulsemod_pulsemod.xml DESTINATION share/gnuradio/grc/blocks
 )

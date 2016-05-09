@@ -202,3 +202,7 @@ TypeError: sequence item 0: expected string, instance found
 to have a single sink accepting floats
 
 we can now start and our new components in gnuradio-companion.
+
+
+
+10)add pulsemod use gr_modtool add

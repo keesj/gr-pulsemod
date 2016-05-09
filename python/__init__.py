@@ -32,4 +32,5 @@ except ImportError:
 
 # import any pure python here
 from pulsedemod import pulsedemod
+from pulsemod import pulsemod
 #
