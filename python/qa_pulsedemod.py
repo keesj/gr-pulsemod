@@ -50,8 +50,11 @@ class qa_pulsedemod (gr_unittest.TestCase):
 		stream =  pulsedemod()
 		stream.end_sample(0,1000)
 		stream.end_sample(1,150)
-		stream.end_sample(1,300)
-		stream.end_sample(0,1000)
+
+    def set_sample_rate(self,samp_rate):
+        print "Setting sample rate to %i" % samp_rate
+	stream =  pulsedemod()
+	stream.set_sample_rate(44000)
 
 if __name__ == '__main__':
     gr_unittest.run(qa_pulsedemod, "qa_pulsedemod.xml")

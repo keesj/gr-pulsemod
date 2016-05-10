@@ -26,12 +26,14 @@ class pulsemod(gr.sync_block):
     """
     docstring for block pulsemod
     """
-    def __init__(self, Sample_rate = samp_rate):
+    def __init__(self):
         gr.sync_block.__init__(self,
             name="pulsemod",
             in_sig=None,
-            out_sig=[<+numpy.float+>])
+            out_sig=[numpy.float32])
 
+    def set_sample_rate(self,samp_rate):
+        print "Setting sample rate to %i" % samp_rate
 
     def work(self, input_items, output_items):
         out = output_items[0]

@@ -206,3 +206,7 @@ we can now start and our new components in gnuradio-companion.
 
 
 10)add pulsemod use gr_modtool add
+
+11) debug test using
+ctest -VVV instead of make test
+
